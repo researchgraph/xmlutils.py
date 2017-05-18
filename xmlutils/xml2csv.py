@@ -37,7 +37,7 @@ class xml2csv:
 
 
 	def convert(self, tag="item", delimiter=",", ignore=[], noheader=False,
-				limit=-1, buffer_size=1000, quotes=True):
+				limit=-1, buffer_size=1000, quotes=True, recordType="publication"):
 
 		"""Convert the XML file to CSV file
 
@@ -55,9 +55,16 @@ class xml2csv:
 
 		# get to the root
 		event, root = self.context.next()
+		header_line = []
+
+		if recordType = "publication":
+			header_line = ["key","source","local_id","last_updated","url","title","author_list","doi","publication_year"]
+		elif recordType = "researcher":
+			header_line = ["key","source","local_id","last_updated","url","full_name","first_name","last_name","orcid"]
+		elif recordType = "relation":
+			header_line = ["from_key","to_url","label"]
 
 		items = []
-		header_line = []
 		field_name = ''
 		processed_fields = []
 
@@ -86,7 +93,7 @@ class xml2csv:
 				if should_write and elem.tag not in processed_fields:
 					processed_fields.append(elem.tag)
 					if should_tag:
-						header_line.append(field_name)  # add field name to csv header
+						#header_line.append(field_name)  # add field name to csv header
 						# remove current tag from the tag name chain
 						field_name = field_name.rpartition('_' + elem.tag)[0]
 					items.append('' if elem.text is None else elem.text.strip().replace('"', r'""'))
