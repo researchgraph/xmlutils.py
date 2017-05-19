@@ -57,11 +57,11 @@ class xml2csv:
 		event, root = self.context.next()
 		header_line = []
 
-		if recordType = "publication":
+		if recordType == "publication":
 			header_line = ["key","source","local_id","last_updated","url","title","author_list","doi","publication_year"]
-		elif recordType = "researcher":
+		elif recordType == "researcher":
 			header_line = ["key","source","local_id","last_updated","url","full_name","first_name","last_name","orcid"]
-		elif recordType = "relation":
+		elif recordType == "relation":
 			header_line = ["from_key","to_url","label"]
 
 		items = []
